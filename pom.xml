@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>ltd.laima</groupId>
+    <artifactId>get-start-spring-parent</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0-SNAPSHOT</version>
+    <description>spring入门指南父项目，所有的示例均为该父项目的模块</description>
+
+    <!--模块清单-->
+    <modules>
+        <module>gs-authenticating-ldap</module>
+        <module>gs-consuming-rest</module>
+        <module>gs-maven</module>
+        <module>gs-messaging-rabbitmq</module>
+        <module>gs-messaging-redis</module>
+        <module>gs-relational-data-access</module>
+        <module>gs-rest-service</module>
+        <module>gs-scheduling-tasks</module>
+        <module>gs-uploading-files</module>
+    </modules>
+
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <!--依赖管理-->
+    <dependencyManagement>
+        <!--具体依赖-->
+        <dependencies>
+            <!--lombok插件，免去Setter和Getter-->
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <optional>true</optional>
+            </dependency>
+            <!--添加springboot测试-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-test</artifactId>
+                <!--scope元素的作用：控制 dependency（依赖）元素的使用范围。
+                通俗点讲，就是控制 Jar 包在哪些范围被加载和使用。
+                这个范围包括，编译、测试、运行，并且还可以加上是否被打入包中。
+                默认值是compile-->
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+</project>
