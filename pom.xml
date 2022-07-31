@@ -6,9 +6,18 @@
 
     <groupId>ltd.laima</groupId>
     <artifactId>get-start-spring-parent</artifactId>
-    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
-    <description>spring入门指南父项目，所有的示例均为该父项目的模块</description>
+    <!--打包类型 war jar ear pom-->
+    <packaging>pom</packaging>
+    <description>spring入门指南父项目，所有的示例均为该父项目的子模块</description>
+
+    <!-- Inherit defaults from Spring Boot
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.7.2</version>
+        <relativePath/>
+    </parent> -->
 
     <!--模块清单-->
     <modules>
@@ -21,18 +30,28 @@
         <module>gs-rest-service</module>
         <module>gs-scheduling-tasks</module>
         <module>gs-uploading-files</module>
+        <module>gs-maven-module</module>
     </modules>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>1.8</java.version>
     </properties>
 
     <!--依赖管理-->
     <dependencyManagement>
         <!--具体依赖-->
         <dependencies>
+            <dependency>
+                <!-- Import dependency management from Spring Boot -->
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>2.7.2</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
             <!--lombok插件，免去Setter和Getter-->
             <dependency>
                 <groupId>org.projectlombok</groupId>
@@ -51,5 +70,60 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <build>
+        <plugins>
+            <!--
+            https://docs.spring.io/spring-boot/docs/current/maven-plugin/reference/htmlsingle/
+            -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+            <!--指定maven编译代码时使用的jdk版本及编码，如不指定则使用插件默认jdk版本(7)编译-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <repositories>
+        <repository>
+            <id>public</id>
+            <name>aliyun nexus</name>
+            <url>https://maven.aliyun.com/repository/public</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>public</id>
+            <name>aliyun nexus</name>
+            <url>https://maven.aliyun.com/repository/public</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
 
 </project>
